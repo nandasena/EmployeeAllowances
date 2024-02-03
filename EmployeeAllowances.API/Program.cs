@@ -26,7 +26,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assemblies))
 
 //Db Connection 
 builder.Services.AddDbContext<EmployeeAllowancesContext>(option =>
-        option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
+        option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionStrings"))
     );
 
 

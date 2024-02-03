@@ -8,6 +8,7 @@ namespace EmployeeAllowance.Domain.Models
 {
     public class EmployeeAllowanceModel
     {
+        public int Id { get; set; }
         public double EmployeeID { get; set; }
         public double DepartmentID { get; set; }
         public DateTime? Date { get; set; }
