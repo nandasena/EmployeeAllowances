@@ -2,5 +2,6 @@
 {
     public interface IEmployeeIntegetionWorkerProcessor
     {
+        Task<bool> ImportEmployeeAllowancess();
     }
 }
