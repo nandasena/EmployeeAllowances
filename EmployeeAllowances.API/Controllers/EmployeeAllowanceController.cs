@@ -22,5 +22,11 @@ namespace EmployeeAlowances.EmployeeAllowances.API.Controllers
             await _mediator.Send(new EmployeeIntegrationCommand());
             return Ok(new { statues="File import successfully." });
         }
+
+        public async Task<IActionResult> GetEmployeeAllowances()
+        {
+            await _mediator.Send(new EmployeeIntegrationCommand());
+            return Ok(new { statues = "File import successfully." });
+        }
     }
 }

@@ -12,6 +12,6 @@ namespace EmployeeAllowance.Intrastructure
     {
         public virtual DbSet<EmployeeAllowanceModel> EmployeeAllowances { get; set; }
 
-        public EmployeeAllowancesContext() : base() { }
+        public EmployeeAllowancesContext(DbContextOptions<EmployeeAllowancesContext> options) : base(options) { }
     }
 }

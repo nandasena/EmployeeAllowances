@@ -6,6 +6,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using EmployeeAllowance.Intrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,13 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IEmployeeIntegetionWorkerProcessor, EmployeeIntegetionWorkerProcessor>();
 var assemblies = Assembly.Load("EmployeeAllowances.Application");
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assemblies));
+
+
+//Db Connection 
+builder.Services.AddDbContext<EmployeeAllowancesContext>(option =>
+        option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
+    );
+
 
 //Add Swagger 
 
