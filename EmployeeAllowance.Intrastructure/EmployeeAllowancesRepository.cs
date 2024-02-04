@@ -43,8 +43,13 @@ namespace EmployeeAllowance.Intrastructure
 
             try
             {
-                dbSet.AddRange(allowanceModels);
-               await _context.SaveChangesAsync();
+                //dbSet.AddRange(allowanceModels);
+                foreach (var item in allowanceModels)
+                {
+                    await _context.Database.ExecuteSqlRawAsync("ManageEmployeeAllowancesData @p0, @p1, @p2, @p3, @p4", item.EmployeeID, item.DepartmentID, item.Date, item.Amount,item.Status );
+                }
+
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)

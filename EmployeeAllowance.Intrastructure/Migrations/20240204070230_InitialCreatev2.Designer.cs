@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeAllowance.Intrastructure.Migrations
 {
     [DbContext(typeof(EmployeeAllowancesContext))]
-    [Migration("20240203151230_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240204070230_InitialCreatev2")]
+    partial class InitialCreatev2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,8 @@ namespace EmployeeAllowance.Intrastructure.Migrations
 
             modelBuilder.Entity("EmployeeAllowance.Domain.Models.EmployeeAllowanceModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<double>("EmployeeID")
+                        .HasColumnType("float");
 
                     b.Property<double?>("Amount")
                         .HasColumnType("float");
@@ -42,13 +39,10 @@ namespace EmployeeAllowance.Intrastructure.Migrations
                     b.Property<double>("DepartmentID")
                         .HasColumnType("float");
 
-                    b.Property<double>("EmployeeID")
-                        .HasColumnType("float");
-
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmployeeID");
 
                     b.ToTable("EmployeeAllowances");
                 });
