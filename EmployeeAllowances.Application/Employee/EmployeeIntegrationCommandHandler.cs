@@ -1,4 +1,5 @@
-﻿using EmployeeAllowances.Application.Service;
+﻿using EmployeeAllowance.Domain.Models;
+using EmployeeAllowances.Application.Service;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,18 @@ namespace EmployeeAllowances.Application.Employee
     {
 
         private readonly IEmployeeIntegetionWorkerProcessor _integetionWorkerProcessor;
-        public EmployeeIntegrationCommandHandler(IEmployeeIntegetionWorkerProcessor integetionWorkerProcessor) {
+        private readonly IEmployeeAllowancesRepository _employeeAllowancesRepository;
+        public EmployeeIntegrationCommandHandler(IEmployeeIntegetionWorkerProcessor integetionWorkerProcessor, IEmployeeAllowancesRepository employeeAllowancesRepository) {
 
             _integetionWorkerProcessor = integetionWorkerProcessor;
+            _employeeAllowancesRepository = employeeAllowancesRepository;
         }
         public async Task<bool> Handle(EmployeeIntegrationCommand request, CancellationToken cancellationToken)
         {
             try
             {
-               await _integetionWorkerProcessor.ImportEmployeeAllowancess();
+                IEnumerable<EmployeeAllowanceModel> empallData = await _integetionWorkerProcessor.ImportEmployeeAllowancess();
+                await _employeeAllowancesRepository.BulkInsertAsync(empallData);
             }
             catch (Exception ex)
             {

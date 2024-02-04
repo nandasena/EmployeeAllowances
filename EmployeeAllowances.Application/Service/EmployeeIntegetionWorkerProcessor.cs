@@ -21,48 +21,17 @@ namespace EmployeeAllowances.Application.Service
         }
 
 
-        public async Task<bool> ImportEmployeeAllowancess()
+        public async Task<IEnumerable<EmployeeAllowanceModel>> ImportEmployeeAllowancess()
         {
-
-            //var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            //{
-            //    HeaderValidated = null
-            //};
-
-            //using (var reader = new StreamReader(_configuration["DataUpload:Path"]))
-            //using (var csv = new CsvReader(reader, config))
-            //{
-            //    var records = csv.GetRecords<EmployeeAllowanceModel>().ToList();
-
-            //    // Save records to the database
-            //    //_context.EmployeeAllowances.AddRange(records);
-            //   // await _context.SaveChangesAsync();
-            //}
-
             DataTable csvFilereader = new DataTable();
             csvFilereader = ReadExcel(_configuration["DataUpload:Path"].ToString());
 
-            //IList<EmployeeAllowanceModel> items = csvFilereader.AsEnumerable().Select(row =>
-            //                    new EmployeeAllowanceModel
-            //                    {
-            //                        EmployeeID = row.Field<int>("Employee ID"),
-            //                        DepartmentID = row.Field<int>("Department ID"),
-            //                        Date = row.Field<DateTime>("Date"),
-            //                        Amount = row.Field<int>("Amount"),
-            //                        Status = row.Field<string>("Status"),
-                                    
-            //                    }).ToList();
             IList<EmployeeAllowanceModel> items = new List<EmployeeAllowanceModel>();
             foreach (DataRow row in csvFilereader.Rows)
             {
 
                 EmployeeAllowanceModel santizeddto = new EmployeeAllowanceModel()
                 {
-                    //EmployeeID = row.Field<int?>("Employee ID "),
-                    //DepartmentID = row.Field<int?>("Department ID"),
-                    //Date = row.Field<DateTime?>("Date"),
-                    //Amount = row.Field<int?>("Amount"),
-                    //Status = row.Field<string?>("Status"),
 
                     EmployeeID = await SanitizData<double>(row, "Employee ID "),
                     DepartmentID = await SanitizData<double>(row, "Department ID"),
@@ -79,7 +48,7 @@ namespace EmployeeAllowances.Application.Service
                 
             }
 
-            return true;
+            return items;
         }
 
         private async Task<T> SanitizData<T>(DataRow row,string columnName)

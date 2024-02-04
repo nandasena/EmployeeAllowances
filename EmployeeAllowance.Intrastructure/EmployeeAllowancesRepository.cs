@@ -19,10 +19,10 @@ namespace EmployeeAllowance.Intrastructure
 
         protected readonly ILogger _logger;
 
-        public EmployeeAllowancesRepository(EmployeeAllowancesContext context, ILogger logger)
+        public EmployeeAllowancesRepository(EmployeeAllowancesContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger("logs");
             dbSet = context.Set<EmployeeAllowanceModel>();
         }
 
@@ -37,6 +37,22 @@ namespace EmployeeAllowance.Intrastructure
                 _logger.LogError(ex, "{Repo} All Method error", typeof(EmployeeAllowancesRepository));
                 return new List<EmployeeAllowanceModel>();
             }
+        }
+
+        public async Task<bool> BulkInsertAsync(IEnumerable<EmployeeAllowanceModel> allowanceModels) {
+
+            try
+            {
+                dbSet.AddRange(allowanceModels);
+               await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "{Repo} BulkInsertAsync Method error", typeof(EmployeeAllowancesRepository));
+                return false;
+            }
+
         }
 
     }

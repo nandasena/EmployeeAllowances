@@ -23,10 +23,10 @@ namespace EmployeeAlowances.EmployeeAllowances.API.Controllers
             return Ok(new { statues="File import successfully." });
         }
 
+        [HttpGet("GetEmployeeAllowances", Name = "GetEmployeeAllowances")]
         public async Task<IActionResult> GetEmployeeAllowances()
         {
-            await _mediator.Send(new EmployeeIntegrationCommand());
-            return Ok(new { statues = "File import successfully." });
+            return Ok(await _mediator.Send(new EmployeeAllowanceQuery()));
         }
     }
 }

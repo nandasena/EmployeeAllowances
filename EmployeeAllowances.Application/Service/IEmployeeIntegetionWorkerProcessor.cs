@@ -1,7 +1,9 @@
-﻿namespace EmployeeAllowances.Application.Service
+﻿using EmployeeAllowance.Domain.Models;
+
+namespace EmployeeAllowances.Application.Service
 {
     public interface IEmployeeIntegetionWorkerProcessor
     {
-        Task<bool> ImportEmployeeAllowancess();
+        Task<IEnumerable<EmployeeAllowanceModel>> ImportEmployeeAllowancess();
     }
 }

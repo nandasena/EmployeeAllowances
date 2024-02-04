@@ -9,6 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using EmployeeAllowance.Intrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using EmployeeAllowances.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IEmployeeIntegetionWorkerProcessor, EmployeeIntegetionWorkerProcessor>();
+
+builder.Services.AddScoped<IEmployeeAllowancesRepository, EmployeeAllowancesRepository>();
+
 var assemblies = Assembly.Load("EmployeeAllowances.Application");
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assemblies));
 
