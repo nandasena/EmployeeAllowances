@@ -1,4 +1,7 @@
-﻿using EmployeeAllowances.Application.Employee;
+﻿using EmployeeAllowances.API.Utility;
+using EmployeeAllowances.Application;
+using EmployeeAllowances.Application.Employee;
+using EmployeeAllowances.Application.Utility;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,18 +18,23 @@ namespace EmployeeAlowances.EmployeeAllowances.API.Controllers
            _mediator = mediator;
         }
 
-        [HttpGet("ImportEmployeeAllowances", Name = "ImportEmployeeAllowances")]
-        public async Task<IActionResult> ImportEmployeeAllowances()
+        [HttpPost("ImportEmployeeAllowances", Name = "ImportEmployeeAllowances")]
+        public async Task<BaseResponseDto> ImportEmployeeAllowances()
         {
 
-            await _mediator.Send(new EmployeeIntegrationCommand());
-            return Ok(new { statues="File import successfully." });
+            var result = await _mediator.Send(new EmployeeIntegrationCommand());
+            return ResponceHandler.CreatedResult(new Meta() { IsSucceeded = result,HttpErrorCode= 200,Message = "File imported successfully." });
         }
 
+
+
         [HttpGet("GetEmployeeAllowances", Name = "GetEmployeeAllowances")]
-        public async Task<IActionResult> GetEmployeeAllowances()
+        public async Task<ResponseDto<IEnumerable<EmployeeAllowanceDto>>> GetEmployeeAllowances()
         {
-            return Ok(await _mediator.Send(new EmployeeAllowanceQuery()));
+            var result = await _mediator.Send(new EmployeeAllowanceQuery());
+
+            return ResponceHandler.ResponceCreator(result,
+                new Meta() { IsSucceeded  = true,Message = "Success",HttpErrorCode = 200});
         }
     }
 }

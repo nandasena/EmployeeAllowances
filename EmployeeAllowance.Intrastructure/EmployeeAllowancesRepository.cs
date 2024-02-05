@@ -26,6 +26,12 @@ namespace EmployeeAllowance.Intrastructure
             dbSet = context.Set<EmployeeAllowanceModel>();
         }
 
+        public EmployeeAllowancesRepository(EmployeeAllowancesContext context)
+        {
+            _context = context;
+            dbSet = context.Set<EmployeeAllowanceModel>();
+        }
+
         public async Task<IEnumerable<EmployeeAllowanceModel>> All()
         {
             try
