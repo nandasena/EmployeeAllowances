@@ -20,4 +20,4 @@
 
 Need to add authentication layer.
 
-Filed upload Part shoud be work in backgroud  proccess.
+File upload Part shoud be work in backgroud  proccess.
